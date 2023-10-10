@@ -13,15 +13,13 @@ int main(void)
 	while (1)
 	{
 		printf("$ ");
-		get_input(&input, &input_size);
-
 		/* Check for end of file (Ctrl+D) */
-		if (feof(stdin))
+		if (get_input(&input, &input_size) == EOF)
 		{
-			printf("\n");
+			printf(" %s \n", input);
 			break;
 		}
-		if (strlen(input) == 0)
+		if (strlen(input) == 0 || isspace(*input))
 			continue;
 
 		/* Tokenize input into command and arguments */

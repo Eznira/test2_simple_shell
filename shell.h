@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <ctype.h>
 
 #define MAX_INPUT_SIZE 1024
 
@@ -33,7 +34,7 @@ int _strcmp(char *s1, char *s2);
 char *_strtok(char *str, char *delim);
 
 /* Shell functions */
-void get_input(char **input, size_t *input_size);
+int get_input(char **input, size_t *input_size);
 void tokenize_input(char *input, char **command, char **args);
 void exec_builtin(char **args, char *command);
 void free_args(char **args);

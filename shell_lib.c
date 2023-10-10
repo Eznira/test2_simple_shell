@@ -1,4 +1,3 @@
-
 #include "shell.h"
 
 /**
@@ -10,10 +9,14 @@
  * newline character. It uses getline to dynamically allocate memory for the
  * input string.
  */
-void get_input(char **input, size_t *input_size)
+int get_input(char **input, size_t *input_size)
 {
-	getline(input, input_size, stdin);
+	int status;
+
+	status = getline(input, input_size, stdin);
 	(*input)[strlen(*input) - 1] = '\0';
+
+	return (status);
 }
 
 /**
