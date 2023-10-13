@@ -1,4 +1,22 @@
 #include "shell.h"
+/**
+ * non_iteractive - Runs the shell in non interactive mode
+ *
+ * @argv: The argument vector passed to main.
+ * @command: The command string to be executed.
+ * @args: The list of arguements.
+ */
+void non_interactive(char *argv[], char **command, char **args)
+{
+	int i;
+
+	*command = argv[1];
+	for (i = 1; argv[i] != NULL; i++)
+		args[i - 1] = argv[i];
+	args[i - 1] = NULL;
+
+	exec_builtin(args, *command);
+}
 
 /**
  * main - Entry point of the shell program
@@ -9,7 +27,7 @@ int main(int argc, char *argv[])
 {
 	size_t input_size = 0;
 	char *input = NULL, *args[MAX_INPUT_SIZE], *command = NULL;
-       
+
 	if (argc < 2)
 	{
 	while (1)
@@ -33,19 +51,10 @@ int main(int argc, char *argv[])
 
 	free(input);
 	free(command);
-	free_args(args);
-	} else
-	{
-		int i;
-		command = argv[1];
+	free_args(args)
 
-		for (i = 1; argv[i] != NULL; i++)
-			args[i - 1] = argv[i];
-
-		args[i - 1] = NULL;
-
-		exec_builtin(args, command);
-	}
-
+	} 
+//		non_interactive(argv, &command, args);
+	
 	return (0);
 }
