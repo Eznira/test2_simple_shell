@@ -11,10 +11,11 @@ void non_interactive(char *argv[], char **command, char **args)
 	int i;
 
 	*command = argv[1];
+
 	for (i = 1; argv[i] != NULL; i++)
 		args[i - 1] = argv[i];
-	args[i - 1] = NULL;
 
+	args[i - 1] = NULL;
 	exec_builtin(args, *command);
 }
 
@@ -30,31 +31,26 @@ int main(int argc, char *argv[])
 
 	if (argc < 2)
 	{
-	while (1)
-	{
-		printf("$ ");
-		/* Check for end of file (Ctrl+D) */
-		if (get_input(&input, &input_size) == EOF)
+		while (1)
 		{
-			printf(" %s \n", input);
-			break;
+			printf("$ ");
+
+			if (get_input(&input, &input_size) == EOF)
+			{
+				printf(" %s \n", input);
+				break;
+			}
+
+			if (strlen(input) == 0 || isspace(*input))
+				continue;
+
+			tokenize_input(input, &command, args);
+			exec_builtin(args, command);
 		}
-		if (strlen(input) == 0 || isspace(*input))
-			continue;
-
-		/* Tokenize input into command and arguments */
-		tokenize_input(input, &command, args);
-
-		/* Find and execute the built-in command */
-		exec_builtin(args, command);
+		free(input);
 	}
+	else
+		non_interactive(argv, &command, args);
 
-	free(input);
-	free(command);
-	free_args(args)
-
-	} 
-//		non_interactive(argv, &command, args);
-	
 	return (0);
 }
