@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <ctype.h>
+#include <sys/stat.h>
 
 #define MAX_INPUT_SIZE 1024
 
@@ -32,12 +33,14 @@ ssize_t _getline(char **line_input_ptr, size_t *n, FILE *stream);
 char *_strchr(char *s, char c);
 int _strcmp(char *s1, char *s2);
 char *_strtok(char *str, char *delim);
+char * _getenv(const char *env_var);
 
 /* Shell functions */
 int get_input(char **input, size_t *input_size);
 void tokenize_input(char *input, char **command, char **args);
 void exec_builtin(char **args, char *command);
 void free_args(char **args);
+char *get_cmd_path(char *command);
 
 /* Builtins */
 void builtin_cd(char **args);

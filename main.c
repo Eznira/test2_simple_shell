@@ -8,15 +8,24 @@
  */
 void non_interactive(char *argv[], char **command, char **args)
 {
-	int i;
+	int i; char *full_command;
 
 	*command = argv[1];
+	full_command = get_cmd_path(*command);
 
 	for (i = 1; argv[i] != NULL; i++)
 		args[i - 1] = argv[i];
 
 	args[i - 1] = NULL;
-	exec_builtin(args, *command);
+
+	if (!full_command)
+	{
+		printf("Error: command not found!\n");
+
+      }
+	else
+		exec_builtin(args, *command);
+	free(full_command);
 }
 
 /**
@@ -27,7 +36,7 @@ void non_interactive(char *argv[], char **command, char **args)
 int main(int argc, char *argv[])
 {
 	size_t input_size = 0;
-	char *input = NULL, *args[MAX_INPUT_SIZE], *command = NULL;
+	char *input = NULL, *full_command, *args[MAX_INPUT_SIZE], *command = NULL;
 
 	if (argc < 2)
 	{
@@ -37,7 +46,6 @@ int main(int argc, char *argv[])
 
 			if (get_input(&input, &input_size) == EOF)
 			{
-				printf(" %s \n", input);
 				break;
 			}
 
@@ -45,7 +53,20 @@ int main(int argc, char *argv[])
 				continue;
 
 			tokenize_input(input, &command, args);
-			exec_builtin(args, command);
+			printf("%s %s\n", command, full_command);
+			full_command = get_cmd_path(command);
+			printf("%s %s\n", command, full_command);
+			
+			if (!full_command)
+			{
+				printf("Error: command not found!\n");
+				continue;
+			}
+			else
+			{
+				exec_builtin(args, command);
+				free(full_command);
+			}
 		}
 		free(input);
 	}

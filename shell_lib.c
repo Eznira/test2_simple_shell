@@ -95,3 +95,41 @@ void free_args(char **args)
 	for (i = 0; args[i]; i++)
 		free(args[i]);
 }
+/**
+ * get_cmd_path - Gets the full command pah
+ *
+ * @cmd: The command.
+ *
+ * Return: A malloced char * to the full command path or NULL
+ *         if the command was not found.
+ */
+char *get_cmd_path(char *cmd)
+{
+	char *path, *full_path, *token;
+	struct stat st;
+
+	path = _getenv("PATH");
+	token = strtok(path, ":");
+
+	if (stat(cmd, &st) == 0)
+		return (cmd);
+
+
+	while (token)
+	{
+		full_path = malloc(strlen(token) + strlen(cmd) + 2);
+
+//		if (!full_path)
+//			return (NULL);
+
+		strcpy(full_path, token);
+		strcat(full_path, "/");
+		strcat(full_path, cmd);
+
+		if (stat(full_path, &st) == 0)
+			return (full_path);
+
+		token = strtok(NULL, ":");
+	}
+	return (NULL);
+}

@@ -141,7 +141,7 @@ int _strcmp(char *s1, char *s2)
  *
  * Return: A char pointer to the string variable value.
  */
-char * _getenv(const char *env_var)
+char * _get_env(const char *env_var)
 {
 	int i = 0;
 	extern char **environ;
@@ -152,9 +152,7 @@ char * _getenv(const char *env_var)
 		key = strtok(environ[i], "=");
 
 		if (strcmp(env_var, key)==0)
-			return (strtok(NULL, "\n"));
+			return (strtok(NULL, "\n");
 
 		 i++;
-	}
-       	return(NULL);
-}
+	 		     
